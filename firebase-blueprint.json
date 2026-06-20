@@ -1,0 +1,178 @@
+{
+  "entities": {
+    "Report": {
+      "title": "Citizen Service Report",
+      "description": "Fragmented or raw public service reporting filed by citizens, enriched by AI contradiction-checking and verification scoring.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the citizen report."
+        },
+        "userId": {
+          "type": "string",
+          "description": "UID of the citizen reporting."
+        },
+        "userEmail": {
+          "type": "string",
+          "description": "Email of the reporter."
+        },
+        "title": {
+          "type": "string",
+          "description": "Short title or summary of the issue."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the service issue, failure, or disruption."
+        },
+        "department": {
+          "type": "string",
+          "description": "Category of public utility or infrastructure. E.g., Electricity, Water, Roads, Public Transport, Telecom, Health.",
+          "enum": ["Electricity", "Water", "Roads", "Public Transport", "Telecom", "Health"]
+        },
+        "locationName": {
+          "type": "string",
+          "description": "Civic location or landmark name."
+        },
+        "latitude": {
+          "type": "number",
+          "description": "Latitude coordinate."
+        },
+        "longitude": {
+          "type": "number",
+          "description": "Longitude coordinate."
+        },
+        "status": {
+          "type": "string",
+          "description": "The current verification and audit workflow status.",
+          "enum": ["open", "investigating", "verified", "disputed", "resolved"]
+        },
+        "contradictionDetected": {
+          "type": "boolean",
+          "description": "True if Gemini detected a contradiction between this report and historical or official service declarations."
+        },
+        "aiVerificationScore": {
+          "type": "number",
+          "description": "Trustworthiness and reliability value parsed by the Gemini auditing backend (0 - 100)."
+        },
+        "aiAnalysis": {
+          "type": "string",
+          "description": "Detailed multi-source contradiction and verification log parsed by the AI."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server generated creation lock date."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server generated updating check date."
+        }
+      },
+      "required": ["id", "userId", "title", "description", "department", "status", "createdAt", "updatedAt"]
+    },
+    "Disruption": {
+      "title": "Public Disruption Event",
+      "description": "Infrastructure, grid, or service disruption records verified by historical logs or official agencies.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique event ID."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the service disruption."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the disruption scope."
+        },
+        "department": {
+          "type": "string",
+          "description": "Utility service department scope."
+        },
+        "severity": {
+          "type": "string",
+          "description": "Level of disruption impact.",
+          "enum": ["minor", "moderate", "severe", "critical"]
+        },
+        "locationName": {
+          "type": "string",
+          "description": "City, district or locality affected."
+        },
+        "reliabilityIndex": {
+          "type": "number",
+          "description": "A composite index based on density of conforming citizen reports vs official channels."
+        },
+        "contradictionNotes": {
+          "type": "string",
+          "description": "Discrepancy audit notes compiled by Bharat Pulse AI comparing government releases and local realities."
+        },
+        "isActive": {
+          "type": "boolean",
+          "description": "Whether the disruption is currently causing an outage or is ongoing."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Official metadata creation date."
+        }
+      },
+      "required": ["id", "title", "department", "severity", "reliabilityIndex", "isActive", "createdAt"]
+    },
+    "Prediction": {
+      "title": "Predictive Disruption Model",
+      "description": "AI-modeled risk forecasting of public service disruptions, combining seasonal weather data, citizen report trends, and historic maintenance cycles.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique prediction entry ID."
+        },
+        "department": {
+          "type": "string",
+          "description": "The targeted public utility sector."
+        },
+        "locationName": {
+          "type": "string",
+          "description": "Forecasting sector or city region."
+        },
+        "riskProbability": {
+          "type": "number",
+          "description": "Calculated disruption risk probability (0.0 to 1.0)."
+        },
+        "forecastReasoning": {
+          "type": "string",
+          "description": "The explanatory rationalization generated by the Gemini intelligence model."
+        },
+        "riskTrend": {
+          "type": "string",
+          "description": "Directional change in risk percentage.",
+          "enum": ["increasing", "stable", "decreasing"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Forecasting cycle run timestamp."
+        }
+      },
+      "required": ["id", "department", "locationName", "riskProbability", "forecastReasoning", "riskTrend", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/reports/{reportId}": {
+      "schema": { "$ref": "#/entities/Report" },
+      "description": "Submissions filed by verified citizens detailing infrastructure and utility concerns."
+    },
+    "/disruptions/{disruptionId}": {
+      "schema": { "$ref": "#/entities/Disruption" },
+      "description": "Validated service events detailing active grid down times, power outages or route delays."
+    },
+    "/predictions/{predictionId}": {
+      "schema": { "$ref": "#/entities/Prediction" },
+      "description": "Predictive outage forecasts generated by the back-end AI models."
+    }
+  }
+}

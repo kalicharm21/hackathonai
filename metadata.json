@@ -1,0 +1,6 @@
+{
+  "name": "Bharat Pulse AI",
+  "description": "An AI-powered Public Information Trust Engine that collects fragmented public service data, detects contradictions using Gemini, provides predictive disruption modeling, and delivers dependable public intelligence.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
