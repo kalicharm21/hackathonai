@@ -39,3 +39,8 @@ body {
   overflow-x: hidden;
 }
 
+body {
+  background-color: #050505;
+  color: #d1d1d1;
+  font-family: 'Courier New', Courier, monospace; /* Monospace feels more like a control center */
+}
